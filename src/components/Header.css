@@ -1,0 +1,10 @@
+.header {
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+}
+
+.header h1 {
+  margin: 0; /* 제목 기본 여백 제거 */
+  font-size: 1.5rem;
+}

@@ -1,0 +1,57 @@
+.watch-container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  height: calc(100vh - 80px);
+}
+
+.video-section {
+  flex: 2;
+  background-color: #000;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.memo-section {
+  flex: 1;
+  border: 1px solid #ddd;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.memo-section h3 {
+  margin-top: 0;
+}
+
+.memo-input {
+  width: 100%;
+  flex-grow: 1;
+  margin-bottom: 10px;
+  padding: 15px;
+  resize: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+.save-btn {
+  padding: 12px;
+  background-color: #333;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.save-btn:hover {
+  background-color: #555;
+}
