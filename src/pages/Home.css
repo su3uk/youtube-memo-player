@@ -1,0 +1,127 @@
+/* 전체 레이아웃 */
+.home-layout {
+  display: flex;
+  height: calc(100vh - 80px);
+  overflow: hidden;
+  background-color: #f9f9f9;
+}
+
+/* 1. 왼쪽 메인 컨텐츠 */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  transition: margin-right 0.3s ease;
+}
+
+.page-container {
+  padding: 40px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.title-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.title-section h2 {
+  font-size: 2rem;
+  margin: 0 0 10px;
+  color: #333;
+}
+
+.title-section p { 
+  color: #666;
+  margin: 0;
+}
+
+.input-section {
+  display: flex; gap: 10px; margin-bottom: 40px;
+  background: #fff; padding: 10px; border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.url-input {
+  flex: 1;
+  border: none;
+  padding: 15px 20px;
+  font-size: 16px;
+  border-radius: 50px;
+  outline: none;
+}
+
+.add-btn {
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.add-btn:hover { background-color: #cc0000; }
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* 2. 오른쪽 사이드바 */
+.sidebar {
+  width: 300px;
+  background-color: white;
+  border-left: 1px solid #eee;
+  box-shadow: -2px 0 10px rgba(0,0,0,0.05);
+  transition: width 0.3s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar.closed {
+  width: 0;
+  border-left: none;
+}
+
+.sidebar-content {
+  padding: 20px;
+  width: 300px;
+  overflow: hidden;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.sidebar-desc {
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 20px;
+}
+
+/* 토글 버튼 */
+.toggle-btn {
+  position: absolute;
+  left: -30px;
+  top: 20px;
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #666;
+  box-shadow: -2px 2px 5px rgba(0,0,0,0.05);
+}
+
+.toggle-btn:hover { background-color: #f0f0f0; }
