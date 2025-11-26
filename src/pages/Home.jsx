@@ -36,7 +36,7 @@ function Home() {
             {/* isSidebarOpen이 true면 'open', false면 'closed' 클래스가 붙음 */}
             <div className={`sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
                 <button className="toggle-btn" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-                    {isSidebarOpen ? '>' : '<'} {/* 열려있으면 >, 닫혀있으면 < */}
+                    {isSidebarOpen ? '>' : '<'}
                 </button>
                 <div className="sidebar-content">
                     <h3>📂 저장된 메모</h3>
