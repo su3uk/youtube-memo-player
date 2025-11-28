@@ -1,9 +1,20 @@
-import React from "react";
-import { useNavigate } from "react-router-dom"; 
+import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import Youtube from "react-youtube"; 
 import "./Watch.css";
 
 const Watch = () => {
+    const [title, setTitle] = useState("");
     const navigate = useNavigate();
+    const { videoId } = useParams();
+
+    const opts = {
+        height: "100%",
+        width: "100%",
+        playerVars: {
+            autoplay: 1,
+        },
+    }
 
     return (
         <div>
@@ -12,12 +23,23 @@ const Watch = () => {
                 <button className="back-btn" onClick={() => navigate(-1)}>
                     ⬅ 목록으로
                 </button>
+                <input
+                    type="text"
+                    className="title-input"
+                    placeholder="이 영상의 제목을 입력하세요."
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                />
             </div>
 
             {/* 비디오 메모 영억 */}
             <div className="watch-container">
                 <div className="video-section">
-                    <h3>유튜브 플레이어 자리</h3>
+                    <Youtube
+                        videoId={videoId}
+                        opts={opts}
+                        className="youtube-frame"
+                    />
                 </div>
                 
                 <div className="memo-section">

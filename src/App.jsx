@@ -5,7 +5,7 @@ import Header from "./components/Header";
 import Home from "./pages/Home";
 import Watch from "./pages/Watch";
 
-function App() {
+function App() {  
   return (
     <BrowserRouter>
       <div className="App">
@@ -19,7 +19,7 @@ function App() {
               </>
             }
           />
-          <Route path="/watch" element={<Watch />} />
+          <Route path="/watch/:videoId" element={<Watch />} />
         </Routes>
       </div>
     </BrowserRouter>

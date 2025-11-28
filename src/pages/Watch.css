@@ -8,12 +8,20 @@
 .video-section {
   flex: 2;
   background-color: #000;
-  color: white;
   display: flex;
-  justify-content: center;
-  align-items: center;
   border-radius: 8px;
   overflow: hidden;
+  flex-direction: column;
+}
+
+.video-section > div {
+  width: 100%;
+  height: 100%;
+}
+
+.youtube-frame {
+  width: 100%;
+  height: 100%;
 }
 
 .memo-section {
@@ -57,7 +65,10 @@
 }
 
 .watch-nav {
-  padding: 10px 20px 0 20px;
+  padding: 15px 20px 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .back-btn {
@@ -72,9 +83,27 @@
   gap: 5px;
   padding: 5px 0;
   transition: transform 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
 }
 
 .back-btn:hover {
   color: #ff0000;
   transform: translateX(-5px);
+}
+
+.title-input {
+  flex: 1;
+  padding: 10px 15px;
+  font-size: 1.1rem;
+  border: 1px soild #ddd;
+  border-radius: 50px;
+  outline: none;
+  background-color: #f9f9f9;
+  transition: all 0.2s;
+}
+
+.title-input:focus {
+  border-color: #333;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
