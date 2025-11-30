@@ -98,12 +98,6 @@
   margin-bottom: 5px;
 }
 
-.sidebar-desc {
-  font-size: 0.9rem;
-  color: #888;
-  margin-bottom: 20px;
-}
-
 /* 토글 버튼 */
 .toggle-btn {
   position: absolute;
