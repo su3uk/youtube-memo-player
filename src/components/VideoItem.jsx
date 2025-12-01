@@ -1,4 +1,3 @@
-import React from 'react';
 import './VideoItem.css';
 
 const VideoItem = ({ title, thumbnail, id, onDelete }) => {

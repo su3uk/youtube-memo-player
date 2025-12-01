@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Youtube from "react-youtube"; 
 import "./Watch.css";
@@ -80,7 +80,7 @@ const Watch = () => {
 
     return (
         <div>
-            {/* 상단 네비게이션 */}
+            {/* 뒤로가기 버튼 */}
             <div className="watch-nav">
                 <button className="back-btn" onClick={() => navigate(-1)}>
                     ⬅ 목록으로

@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import VideoItem from "../components/VideoItem";
 import MemoItem from "../components/MemoItem";
+import MemoModal from "../components/MemoModal";
 
 const Home = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [urlInput, setUrlInput] = useState("");
     const [videos, setVideos] = useState([]); 
     const [memos, setMemos] = useState([]);
-    
+    const [selectedMemo, setSelectedMemo] = useState(null);
+
     const navigate = useNavigate();
 
-    // 데이터 불러오기
     useEffect(() => {
         const savedVideos = JSON.parse(localStorage.getItem("videos") || "[]");
         const savedMemos = JSON.parse(localStorage.getItem("memos") || "[]");
@@ -20,42 +21,34 @@ const Home = () => {
         setMemos(savedMemos);
     }, []);
 
-    // 유튜브 링크 추출
     const extractVideoId = (url) => {
         const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
         const match = url.match(regExp);
         return (match && match[7].length === 11) ? match[7] : false;
     };
 
-    // 비디오 추가
     const handleAddVideo = () => {
         if (!urlInput) return alert("링크를 입력해주세요!");
-
         const videoId = extractVideoId(urlInput);
         if (!videoId) return alert("유효한 유튜브 링크가 아닙니다!");
-
         if (videos.some(v => v.id === videoId)) {
             alert("이미 리스트에 있는 영상입니다!");
             setUrlInput("");
             navigate(`/watch/${videoId}`);
             return;
         }
-
         const newVideo = {
             id: videoId,
             title: `새로운 강의 (${videoId})`,
             thumbnail: `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`,
         };
-
         const updatedVideos = [...videos, newVideo];
         setVideos(updatedVideos);
-        localStorage.setItem("videos", JSON.stringify(updatedVideos)); // "videos" 키 사용
-        
+        localStorage.setItem("videos", JSON.stringify(updatedVideos));
         setUrlInput("");
         navigate(`/watch/${videoId}`);
     };
 
-    // 비디오 삭제
     const handleDeleteVideo = (id) => {
         if (window.confirm("이 영상을 목록에서 삭제할까요?")) {
             const updatedVideos = videos.filter((v) => v.id !== id);
@@ -64,18 +57,24 @@ const Home = () => {
         }
     };
 
-    // 메모 삭제
     const handleDeleteMemo = (id) => {
         if (window.confirm("정말 이 메모를 삭제할까요?")) {
             const updatedMemos = memos.filter((m) => m.id !== id);
             setMemos(updatedMemos);
             localStorage.setItem("memos", JSON.stringify(updatedMemos));
+            
+            if (selectedMemo && selectedMemo.id === id) {
+                setSelectedMemo(null);
+            }
         }
+    };
+
+    const closeMemoModal = () => {
+        setSelectedMemo(null);
     };
 
     return (
         <div className="home-layout">
-            {/* 왼쪽: 메인 컨텐츠 */}
             <div className="main-content">
                 <div className="page-container">
                     <div className="title-section">
@@ -114,7 +113,6 @@ const Home = () => {
                 </div>
             </div>
 
-            {/* 오른쪽: 사이드바 */}
             <div className={`sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
                 <button className="toggle-btn" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
                     {isSidebarOpen ? '>' : '<'}
@@ -123,7 +121,7 @@ const Home = () => {
                     <h3>📂 저장된 메모</h3>
                     <br />
                     {memos.length === 0 ? (
-                        <p style={{fontSize: '0.8rem', color: '#ccc'}}>아직 메모가 없어요...</p>
+                        <p style={{fontSize: '0.8rem', color: '#ccc'}}>등록된 메모가 없습니다.</p>
                     ) : (
                         memos.map((memo) => (
                             <MemoItem 
@@ -131,12 +129,20 @@ const Home = () => {
                                 id={memo.id}
                                 title={memo.title} 
                                 content={memo.content}
-                                onDelete={handleDeleteMemo} 
+                                onDelete={handleDeleteMemo}
+                                onClick={() => setSelectedMemo(memo)} 
                             />
                         ))
                     )}
                 </div>
             </div>
+
+            {selectedMemo && (
+                <MemoModal 
+                    memo={selectedMemo} 
+                    onClose={closeMemoModal} 
+                />
+            )}
         </div>
     );
 }

@@ -1,9 +1,8 @@
-import React from 'react';
 import './MemoItem.css';
 
-const MemoItem = ({ title, content, id, onDelete }) => {
+const MemoItem = ({ title, content, id, onDelete, onClick }) => {
     return (
-        <div className="memo-item">
+        <div className="memo-item" onClick={onClick}>
             <div className="memo-content-wrapper">
                 <span className="memo-icon">📝</span>
                 <div className="memo-text">
