@@ -1,14 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import VideoItem from "../components/VideoItem";
-import MemoItem from "../components/MemoItem";
+import Sidebar from "../components/Sidebar";
 import MemoModal from "../components/MemoModal";
+import { extractVideoId } from "../util";
 
 const Home = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [urlInput, setUrlInput] = useState("");
-    const [videos, setVideos] = useState([]); 
+    const [videos, setVideos] = useState([]);
     const [memos, setMemos] = useState([]);
     const [selectedMemo, setSelectedMemo] = useState(null);
 
@@ -21,13 +22,8 @@ const Home = () => {
         setMemos(savedMemos);
     }, []);
 
-    const extractVideoId = (url) => {
-        const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-        const match = url.match(regExp);
-        return (match && match[7].length === 11) ? match[7] : false;
-    };
-
-    const handleAddVideo = () => {
+    // 비디오 추가
+    const handleAddVideo = useCallback(() => {
         if (!urlInput) return alert("링크를 입력해주세요!");
         const videoId = extractVideoId(urlInput);
         if (!videoId) return alert("유효한 유튜브 링크가 아닙니다!");
@@ -45,19 +41,22 @@ const Home = () => {
         const updatedVideos = [...videos, newVideo];
         setVideos(updatedVideos);
         localStorage.setItem("videos", JSON.stringify(updatedVideos));
-        setUrlInput("");
-        navigate(`/watch/${videoId}`);
-    };
 
-    const handleDeleteVideo = (id) => {
+        setUrlInput("");
+        navigate(`/watch/${videoId}`);        
+    }, [urlInput, videos, navigate]);
+
+    // 비디오 삭제
+    const handleDeleteVideo = useCallback((id) => {
         if (window.confirm("이 영상을 목록에서 삭제할까요?")) {
             const updatedVideos = videos.filter((v) => v.id !== id);
             setVideos(updatedVideos);
             localStorage.setItem("videos", JSON.stringify(updatedVideos));
         }
-    };
+    }, [videos]);
 
-    const handleDeleteMemo = (id) => {
+    // 메모 삭제
+    const handleDeleteMemo = useCallback((id) => {
         if (window.confirm("정말 이 메모를 삭제할까요?")) {
             const updatedMemos = memos.filter((m) => m.id !== id);
             setMemos(updatedMemos);
@@ -67,8 +66,9 @@ const Home = () => {
                 setSelectedMemo(null);
             }
         }
-    };
+    }, [memos, selectedMemo]);
 
+    // 메모 모달창
     const closeMemoModal = () => {
         setSelectedMemo(null);
     };
@@ -113,29 +113,13 @@ const Home = () => {
                 </div>
             </div>
 
-            <div className={`sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
-                <button className="toggle-btn" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-                    {isSidebarOpen ? '>' : '<'}
-                </button>
-                <div className="sidebar-content">
-                    <h3>📂 저장된 메모</h3>
-                    <br />
-                    {memos.length === 0 ? (
-                        <p style={{fontSize: '0.8rem', color: '#ccc'}}>등록된 메모가 없습니다.</p>
-                    ) : (
-                        memos.map((memo) => (
-                            <MemoItem 
-                                key={memo.id}
-                                id={memo.id}
-                                title={memo.title} 
-                                content={memo.content}
-                                onDelete={handleDeleteMemo}
-                                onClick={() => setSelectedMemo(memo)} 
-                            />
-                        ))
-                    )}
-                </div>
-            </div>
+            <Sidebar 
+                isOpen={isSidebarOpen}
+                onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
+                memos={memos}
+                onDelete={handleDeleteMemo}
+                onClick={setSelectedMemo}
+            />
 
             {selectedMemo && (
                 <MemoModal 

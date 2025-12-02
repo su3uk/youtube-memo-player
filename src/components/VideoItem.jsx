@@ -12,7 +12,7 @@ const VideoItem = ({ title, thumbnail, id, onDelete }) => {
                     className="video-delete-btn"
                     title="목록에서 삭제"
                     onClick={(e) => {
-                        e.stopPropagation(); // ✋ 중요: 부모의 클릭 이벤트(페이지 이동)를 막는다!
+                        e.stopPropagation();
                         onDelete(id);
                     }}
                 >

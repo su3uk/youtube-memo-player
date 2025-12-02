@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Youtube from "react-youtube"; 
 import "./Watch.css";
 
 const Watch = () => {
-    // 상태 관리
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const navigate = useNavigate();
@@ -36,7 +35,7 @@ const Watch = () => {
     }, [videoId]);
 
     // 메모 저장
-    const handleSaveMemo = () => {
+    const handleSaveMemo = useCallback(() => {
         if (!title || !content) {
             return alert("제목과 메모 내용을 모두 입력해주세요!");
         }
@@ -76,7 +75,7 @@ const Watch = () => {
 
         alert("저장되었습니다! ✅");
         navigate("/");
-    };
+    }, [title, content, videoId, navigate]);
 
     return (
         <div>
