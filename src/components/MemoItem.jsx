@@ -17,6 +17,7 @@ const MemoItem = ({ title, content, id, onDelete, onClick }) => {
                     onDelete(id);
                 }}
             >
+                {/* 쓰레기통 아이콘 */}
                 <svg 
                     width="20" 
                     height="20" 

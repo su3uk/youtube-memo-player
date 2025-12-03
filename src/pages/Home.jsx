@@ -7,7 +7,6 @@ import MemoModal from "../components/MemoModal";
 import { extractVideoId } from "../util";
 
 const Home = () => {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [urlInput, setUrlInput] = useState("");
     const [videos, setVideos] = useState([]);
     const [memos, setMemos] = useState([]);
@@ -68,7 +67,7 @@ const Home = () => {
         }
     }, [memos, selectedMemo]);
 
-    // 메모 모달창
+    // 메모 모달창 닫기
     const closeMemoModal = () => {
         setSelectedMemo(null);
     };
@@ -81,7 +80,7 @@ const Home = () => {
                         <h2>📚 나만의 학습 플레이리스트</h2>
                         <p>유튜브 링크를 넣어 학습할 영상을 모아보세요!</p>
                     </div>
-
+                    {/* 링크 삽입 창 */}
                     <div className="input-section">
                         <input 
                             type="text" 
@@ -92,10 +91,10 @@ const Home = () => {
                         />
                         <button className="add-btn" onClick={handleAddVideo}>추가</button>
                     </div>
-
+                    {/* 비디오 영역 */}
                     <div className="video-grid">
                         {videos.length === 0 && (
-                            <p style={{ gridColumn: '1/-1', textAlign: 'center', color: '#999', padding: '20px'}}>
+                            <p className="empty-video">
                                 등록된 영상이 없습니다.
                             </p>
                         )}
@@ -112,15 +111,13 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-
+            {/* 사이드바 영역 */}
             <Sidebar 
-                isOpen={isSidebarOpen}
-                onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
                 memos={memos}
                 onDelete={handleDeleteMemo}
                 onClick={setSelectedMemo}
             />
-
+            {/* 메모 모달창 영역 */}
             {selectedMemo && (
                 <MemoModal 
                     memo={selectedMemo} 

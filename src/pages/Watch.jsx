@@ -16,7 +16,6 @@ const Watch = () => {
         playerVars: { autoplay: 1 },
     };
 
-    // 데이터 불러오기
     useEffect(() => {
         const savedVideos = JSON.parse(localStorage.getItem("videos") || "[]");
         const currentVideo = savedVideos.find(v => v.id === videoId);
@@ -93,7 +92,7 @@ const Watch = () => {
                 />
             </div>
 
-            {/* 플레이어 & 메모장 영역 */}
+            {/* 플레이어 영역 */}
             <div className="watch-container">
                 <div className="video-section">
                     <Youtube
@@ -102,7 +101,7 @@ const Watch = () => {
                         className="youtube-frame"
                     />
                 </div>
-                
+                {/* 메모장 영역 */}
                 <div className="memo-section">
                     <h3>📝 메모장</h3>
                     <textarea 
