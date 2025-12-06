@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Youtube from "react-youtube"; 
+import VideoPlayer from "../components/VideoPlayer";
+import MemoPad from "../components/MemoPad";
+import { setPageTitle } from "../util";
 import "./Watch.css";
 
 const Watch = () => {
@@ -9,13 +11,6 @@ const Watch = () => {
     const navigate = useNavigate();
     const { videoId } = useParams();
 
-    // 유튜브 옵션
-    const opts = {
-        height: "100%",
-        width: "100%",
-        playerVars: { autoplay: 1 },
-    };
-
     useEffect(() => {
         const savedVideos = JSON.parse(localStorage.getItem("videos") || "[]");
         const currentVideo = savedVideos.find(v => v.id === videoId);
@@ -23,6 +18,17 @@ const Watch = () => {
         if (currentVideo && !currentVideo.title.startsWith("새로운 강의")) {
             setTitle(currentVideo.title);
         }
+
+        let displayTitle = "영상 시청 중";
+
+        if (currentVideo) {
+            if (!currentVideo.title.startsWith("새로운 강의")) {
+                setTitle(currentVideo.title);
+                displayTitle = currentVideo.title;
+            }
+        }
+
+        setPageTitle(`${displayTitle} | 메모 플레이어`);
 
         const savedMemos = JSON.parse(localStorage.getItem("memos") || "[]");
         const currentMemo = savedMemos.find(m => m.videoId === videoId);
@@ -78,8 +84,8 @@ const Watch = () => {
 
     return (
         <div>
-            {/* 뒤로가기 버튼 */}
             <div className="watch-nav">
+                {/* 뒤로가기 버튼 */}
                 <button className="back-btn" onClick={() => navigate(-1)}>
                     ⬅ 목록으로
                 </button>
@@ -91,27 +97,15 @@ const Watch = () => {
                     onChange={(e) => setTitle(e.target.value)}
                 />
             </div>
-
-            {/* 플레이어 영역 */}
             <div className="watch-container">
-                <div className="video-section">
-                    <Youtube
-                        videoId={videoId}
-                        opts={opts}
-                        className="youtube-frame"
-                    />
-                </div>
+                {/* 플레이어 영역 */}
+                <VideoPlayer videoId={videoId} />
                 {/* 메모장 영역 */}
-                <div className="memo-section">
-                    <h3>📝 메모장</h3>
-                    <textarea 
-                        className="memo-input" 
-                        placeholder="강의 내용을 요약해보세요..." 
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                    />
-                    <button className="save-btn" onClick={handleSaveMemo}>저장하기</button>
-                </div>
+                <MemoPad 
+                    content={content} 
+                    onChange={(e) => setContent(e.target.value)} 
+                    onSave={handleSaveMemo} 
+                />
             </div>
         </div>
     );

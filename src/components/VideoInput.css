@@ -1,0 +1,56 @@
+.video-input-container {
+  margin-bottom: 40px;
+}
+
+.title-area {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.title-area h2 {
+  font-size: 2rem;
+  margin: 0 0 10px;
+  color: #333;
+}
+
+.title-area p { 
+  color: #666;
+  margin: 0;
+}
+
+.input-area {
+  display: flex;
+  gap: 10px;
+  background: #fff;
+  padding: 10px;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.url-input {
+  flex: 1;
+  border: none;
+  padding: 15px 20px;
+  font-size: 16px;
+  border-radius: 50px;
+  outline: none;
+}
+
+.add-btn {
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  white-space: nowrap; /* 글자 줄바꿈 방지 */
+}
+
+.add-btn:hover {
+  background-color: #cc0000;
+}

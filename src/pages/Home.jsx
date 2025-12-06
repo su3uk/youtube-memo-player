@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
-import VideoItem from "../components/VideoItem";
+import VideoInput from "../components/VideoInput";
+import VideoList from "../components/VideoList";
 import Sidebar from "../components/Sidebar";
 import MemoModal from "../components/MemoModal";
-import { extractVideoId } from "../util";
+import { setPageTitle, extractVideoId } from "../util";
 
 const Home = () => {
     const [urlInput, setUrlInput] = useState("");
@@ -15,6 +16,8 @@ const Home = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        setPageTitle("유튜브 메모 플레이어");
+
         const savedVideos = JSON.parse(localStorage.getItem("videos") || "[]");
         const savedMemos = JSON.parse(localStorage.getItem("memos") || "[]");
         setVideos(savedVideos);
@@ -72,43 +75,29 @@ const Home = () => {
         setSelectedMemo(null);
     };
 
+    const handleOnKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleAddVideo(); // 엔터키면 추가 함수 실행!
+        }
+    };
+
     return (
         <div className="home-layout">
             <div className="main-content">
                 <div className="page-container">
-                    <div className="title-section">
-                        <h2>📚 나만의 학습 플레이리스트</h2>
-                        <p>유튜브 링크를 넣어 학습할 영상을 모아보세요!</p>
-                    </div>
-                    {/* 링크 삽입 창 */}
-                    <div className="input-section">
-                        <input 
-                            type="text" 
-                            placeholder="유튜브 영상 링크를 붙여넣으세요!" 
-                            className="url-input"
-                            value={urlInput}
-                            onChange={(e) => setUrlInput(e.target.value)}
-                        />
-                        <button className="add-btn" onClick={handleAddVideo}>추가</button>
-                    </div>
-                    {/* 비디오 영역 */}
-                    <div className="video-grid">
-                        {videos.length === 0 && (
-                            <p className="empty-video">
-                                등록된 영상이 없습니다.
-                            </p>
-                        )}
-                        {videos.map((video) => (
-                            <div key={video.id} onClick={() => navigate(`/watch/${video.id}`)}>
-                                <VideoItem 
-                                    id={video.id}
-                                    title={video.title}
-                                    thumbnail={video.thumbnail}
-                                    onDelete={handleDeleteVideo}
-                                />
-                            </div>
-                        ))}
-                    </div>
+                    {/* 비디오 링크 인풋 영역 */}
+                    <VideoInput 
+                        urlInput={urlInput}
+                        onChange={(e) => setUrlInput(e.target.value)}
+                        onAdd={handleAddVideo}
+                        onKeyDown={handleOnKeyPress}
+                    />
+                    {/* 비디오 리스트 영역 */}
+                    <VideoList 
+                        videos={videos}
+                        onVideoClick={(id) => navigate(`/watch/${id}`)}
+                        onDelete={handleDeleteVideo}
+                    />
                 </div>
             </div>
             {/* 사이드바 영역 */}
